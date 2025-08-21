@@ -5,6 +5,7 @@ from typing import override
 import suffix_tree
 
 from pandipakend.database import AbstractDatabase
+from pandipakend.real_database import RealDatabase
 from pandipakend.scraper import AbstractScraper
 
 from .database import QueryCountDatabase
@@ -46,10 +47,14 @@ class SuffixTreeScraper(AbstractScraper):
         else:
             scrape(term)
 
+# TODO: improved version:
+# e.g. don't query "10" if all of "0" has been scraped - we have seen everything containing "0", which already includes everything containing "10"
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
-    database = QueryCountDatabase(MockDatabase("11.txt"))
+    # database = QueryCountDatabase(MockDatabase("11.txt"))
+    database = QueryCountDatabase(RealDatabase())
     scraper = SuffixTreeScraper(database)
     scraper.scrape("")
     logger.info("queries: %d", database.query_count)

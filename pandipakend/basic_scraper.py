@@ -2,6 +2,8 @@ import json
 import logging
 from typing import override
 
+from pandipakend.real_database import RealDatabase
+
 from .database import QueryCountDatabase
 from .mock_database import MockDatabase
 from .scraper import AbstractScraper
@@ -34,7 +36,8 @@ class BasicScraper(AbstractScraper):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
-    database = QueryCountDatabase(MockDatabase("11.txt"))
+    # database = QueryCountDatabase(MockDatabase("11.txt"))
+    database = QueryCountDatabase(RealDatabase())
     scraper = BasicScraper(database)
     scraper.scrape("")
     logger.info("queries: %d", database.query_count)
