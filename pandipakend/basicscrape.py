@@ -1,19 +1,16 @@
+from .database import QueryCountDatabase
 from .mock_database import MockDatabase
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-database = MockDatabase("11.txt")
-
-lookups = 0
+database = QueryCountDatabase(MockDatabase("11.txt"))
 
 def scrape(term, depth=0):
     logger.debug("%s %s", depth * " ", term)
-    global lookups
     result = database.query(term)
     logger.info("%s %s: lookup", depth * " ", term)
-    lookups += 1
     if len(result) < 10:
         for package in result:
             print(package)
@@ -23,4 +20,4 @@ def scrape(term, depth=0):
 
 for digit in range(0, 10):
     scrape(str(digit), depth=1)
-print(lookups)
+print(database.query_count)

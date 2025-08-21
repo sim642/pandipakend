@@ -1,3 +1,4 @@
+from .database import QueryCountDatabase
 from .mock_database import MockDatabase
 import logging
 import suffix_tree
@@ -5,23 +6,20 @@ import suffix_tree
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-database = MockDatabase("11.txt")
+database = QueryCountDatabase(MockDatabase("11.txt"))
 
-lookups = 0
 seen = suffix_tree.Tree()
 seen2 = set()
 
 def scrape(term, depth=0):
     logger.debug("%s %s: %d", depth * " ", term, len(seen.find_all(term)))
     if len(seen.find_all(term)) < 10:
-        global lookups
         result = database.query(term)
         for package in result:
             if package["barcode"] not in seen2:
                 seen.add(package["barcode"], package["barcode"])
             seen2.add(package["barcode"])
         logger.info("%s %s: lookup", depth * " ", term)
-        lookups += 1
         if len(result) < 10:
             for package in result:
                 print(package)
@@ -34,4 +32,4 @@ def scrape(term, depth=0):
 
 for digit in range(0, 10):
     scrape(str(digit), depth=1)
-print(lookups)
+print(database.query_count)
