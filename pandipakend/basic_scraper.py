@@ -1,3 +1,4 @@
+import json
 import logging
 from typing import override
 
@@ -18,7 +19,8 @@ class BasicScraper(AbstractScraper):
             for package in result:
                 if package["barcode"] not in self.packages:
                     self.packages[package["barcode"]] = package
-            logger.info("%s %s: lookup", depth * " ", term)
+                    print(json.dumps(package, ensure_ascii=False))
+            # logger.info("%s %s: lookup", depth * " ", term)
             if len(result) >= 10:
                 for digit in range(0, 10):
                     scrape(term + str(digit), depth=depth+1)
@@ -35,5 +37,5 @@ if __name__ == "__main__":
     database = QueryCountDatabase(MockDatabase("11.txt"))
     scraper = BasicScraper(database)
     scraper.scrape("")
-    print(database.query_count)
-    print(len(scraper.packages))
+    logger.info("queries: %d", database.query_count)
+    logger.info("packages: %d", len(scraper.packages))
