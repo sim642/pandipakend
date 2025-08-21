@@ -1,9 +1,11 @@
-from . import fakedb as db
+from .mock_database import MockDatabase
 import logging
 import suffix_tree
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+
+database = MockDatabase("11.txt")
 
 lookups = 0
 seen = suffix_tree.Tree()
@@ -13,7 +15,7 @@ def scrape(term, depth=0):
     logger.debug("%s %s: %d", depth * " ", term, len(seen.find_all(term)))
     if len(seen.find_all(term)) < 10:
         global lookups
-        result = db.lookup(term)
+        result = database.query(term)
         for package in result:
             if package["barcode"] not in seen2:
                 seen.add(package["barcode"], package["barcode"])

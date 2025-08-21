@@ -1,15 +1,17 @@
-from . import fakedb as db
+from .mock_database import MockDatabase
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+
+database = MockDatabase("11.txt")
 
 lookups = 0
 
 def scrape(term, depth=0):
     logger.debug("%s %s", depth * " ", term)
     global lookups
-    result = db.lookup(term)
+    result = database.query(term)
     logger.info("%s %s: lookup", depth * " ", term)
     lookups += 1
     if len(result) < 10:
