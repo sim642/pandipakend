@@ -23,9 +23,14 @@ class SuffixTreeScraper(AbstractScraper):
         self.barcode_tree = suffix_tree.Tree()
 
     @override
-    def scrape(self, term: str = ""):
+    def scrape(self, term: str = "", cont=None):
         def scrape(term, depth=0):
             logger.debug("%s %s: %d", depth * " ", term, len(self.barcode_tree.find_all(term)))
+            if cont is not None:
+                if cont.startswith(term):
+                    pass
+                elif term < cont:
+                    return
             if len(self.barcode_tree.find_all(term)) < 10:
                 result = self.database.query(term)
                 for package in result:
@@ -56,6 +61,6 @@ if __name__ == "__main__":
     # database = QueryCountDatabase(MockDatabase("11.txt"))
     database = QueryCountDatabase(RealDatabase())
     scraper = SuffixTreeScraper(database)
-    scraper.scrape("")
+    scraper.scrape("", cont="87659685")
     logger.info("queries: %d", database.query_count)
     logger.info("packages: %d", len(scraper.packages))
