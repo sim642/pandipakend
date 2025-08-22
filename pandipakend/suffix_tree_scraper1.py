@@ -68,8 +68,9 @@ class SuffixTreeScraper(AbstractScraper):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
-    database = QueryCountDatabase(MockDatabase("11.txt"))
+    # database = QueryCountDatabase(MockDatabase("11.txt"))
     # database = QueryCountDatabase(RealDatabase())
+    database = QueryCountDatabase(MockDatabase("all-full.txt")) # TODO: broken
     scraper = SuffixTreeScraper(database)
     scraper.scrape("")
     logger.info("queries: %d", database.query_count)
