@@ -25,13 +25,15 @@ class SuffixTreeScraper(AbstractScraper):
     @override
     def scrape(self, term: str = "", cont=None):
         def scrape(term, depth=0):
-            logger.debug("%s %s: %d", depth * " ", term, len(self.barcode_tree.find_all(term)))
+            cnt = len(self.barcode_tree.find_all(term))
+            # cnt = len(set([i for i, _ in self.barcode_tree.find_all(term)])) # TODO: avoids duplicates, but inefficient
+            logger.debug("%s %s: %d", depth * " ", term, cnt)
             if cont is not None:
                 if cont.startswith(term):
                     pass
                 elif term < cont:
                     return
-            if len(self.barcode_tree.find_all(term)) < 10:
+            if cnt < 10:
                 result = self.database.query(term)
                 for package in result:
                     if package["barcode"] not in self.packages:
