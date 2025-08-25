@@ -46,7 +46,8 @@ def generate(node: suffix_tree.node.Node) -> None:
         suffix = "".join(node.S[node.start:node.end - 1])
         small_queries[suffix] = {id for id, _ in node.get_positions()}
     elif isinstance(node, suffix_tree.node.Internal):
-        if node.C < 10:
+        # if node.C < 10:
+        if node.C <= 10: # equality is fine here because we just want to see all, when not confirming exhaustiveness
             print(node)
             suffix = "".join(node.S[node.start:node.end])
             small_queries[suffix] = {id for id, _ in node.get_positions()}
