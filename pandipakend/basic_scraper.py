@@ -2,10 +2,6 @@ import json
 import logging
 from typing import override
 
-from pandipakend.real_database import RealDatabase
-
-from .database import QueryCountDatabase
-from .mock_database import MockDatabase
 from .scraper import AbstractScraper
 
 
@@ -32,14 +28,3 @@ class BasicScraper(AbstractScraper):
                 scrape(str(digit), depth=1)
         else:
             scrape(term)
-
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
-    # database = QueryCountDatabase(MockDatabase("11.txt"))
-    # database = QueryCountDatabase(RealDatabase())
-    database = QueryCountDatabase(MockDatabase("all-full.txt"))
-    scraper = BasicScraper(database)
-    scraper.scrape("")
-    logger.info("queries: %d", database.query_count)
-    logger.info("packages: %d", len(scraper.packages))

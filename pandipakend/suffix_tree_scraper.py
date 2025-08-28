@@ -9,7 +9,6 @@ from pandipakend.real_database import RealDatabase
 from pandipakend.scraper import AbstractScraper
 
 from .database import QueryCountDatabase
-from .mock_database import MockDatabase
 
 
 logger = logging.getLogger(__name__)
@@ -60,9 +59,7 @@ class SuffixTreeScraper(AbstractScraper):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
-    # database = QueryCountDatabase(MockDatabase("11.txt"))
-    # database = QueryCountDatabase(RealDatabase())
-    database = QueryCountDatabase(MockDatabase("all-full.txt"))
+    database = QueryCountDatabase(RealDatabase())
     scraper = SuffixTreeScraper(database)
     scraper.scrape("")
     # scraper.scrape("", cont="87659685")

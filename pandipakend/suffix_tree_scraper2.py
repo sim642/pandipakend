@@ -5,11 +5,7 @@ from typing import override
 import suffix_tree
 
 from pandipakend.database import AbstractDatabase
-from pandipakend.real_database import RealDatabase
 from pandipakend.scraper import AbstractScraper
-
-from .database import QueryCountDatabase
-from .mock_database import MockDatabase
 
 
 logger = logging.getLogger(__name__)
@@ -82,14 +78,3 @@ class SuffixTreeScraper(AbstractScraper):
             scrape(term, True)
             self.term_set = set()
             scrape(term, False)
-
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
-    # database = QueryCountDatabase(MockDatabase("11.txt"))
-    # database = QueryCountDatabase(RealDatabase())
-    database = QueryCountDatabase(MockDatabase("all-full.txt")) # TODO: broken
-    scraper = SuffixTreeScraper(database)
-    scraper.scrape("")
-    logger.info("queries: %d", database.query_count)
-    logger.info("packages: %d", len(scraper.packages))
