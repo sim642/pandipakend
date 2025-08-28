@@ -8,11 +8,11 @@ def test_11():
     scraper = SuffixTreeScraper(database)
     scraper.scrape("")
     assert len(scraper.packages) == 1273
-    assert database.query_count == 11030
+    assert database.query_count == 11022
 
 def test_all():
     database = QueryCountDatabase(MockDatabase("actual.jsonl"))
     scraper = SuffixTreeScraper(database)
     scraper.scrape("")
     assert len(scraper.packages) == 10171
-    assert database.query_count == 73712
+    assert database.query_count == 73713

@@ -24,8 +24,8 @@ class SuffixTreeScraper(AbstractScraper):
     @override
     def scrape(self, term: str = "", cont=None):
         def scrape(term, depth=0):
-            cnt = len(self.barcode_tree.find_all(term))
-            # cnt = len(set([i for i, _ in self.barcode_tree.find_all(term)])) # TODO: avoids duplicates, but inefficient
+            # cnt = len(self.barcode_tree.find_all(term))
+            cnt = len(set([i for i, _ in self.barcode_tree.find_all(term)])) # avoids duplicates, but less efficient
             logger.debug("%s %s: %d", depth * " ", term, cnt)
             if cont is not None:
                 if cont.startswith(term):
