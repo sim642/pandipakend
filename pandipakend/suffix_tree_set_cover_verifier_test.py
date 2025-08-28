@@ -3,13 +3,13 @@ from .suffix_tree_set_cover_verifier import SuffixTreeSetCoverVerifier
 
 
 def test_11():
-    database = MockDatabase("11.txt")
+    database = MockDatabase("actual-11.jsonl")
     verifier = SuffixTreeSetCoverVerifier()
     queries = verifier.verify_queries(database.packages)
     assert len(queries) == 246
 
 def test_all():
-    database = MockDatabase("all-full.txt")
+    database = MockDatabase("actual.jsonl")
     verifier = SuffixTreeSetCoverVerifier()
     queries = verifier.verify_queries(database.packages)
     assert len(queries) == 2159
